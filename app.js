@@ -194,9 +194,16 @@ function openModal(type) {
       closeModal();
       showToast("Registro salvo no repositório da City Cell.");
     } catch (error) {
+      if (error.message.includes("dados mudaram em outra sessão")) {
+        await loadData().catch(() => {});
+        closeModal();
+        showToast("Outra sessão salvou dados primeiro. As informações foram atualizadas; repita o lançamento.", true);
+        return;
+      }
       render();
       showToast(`${error.message} O novo registro ainda não foi gravado.`, true);
       submit.disabled = false;
+      submit.type = "button";
       submit.textContent = "Tentar salvar novamente";
       submit.onclick = async (click) => {
         click.preventDefault();
