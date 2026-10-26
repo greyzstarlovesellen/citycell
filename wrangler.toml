@@ -1,0 +1,10 @@
+name = "citycell-api"
+main = "api/worker.mjs"
+compatibility_date = "2026-10-26"
+
+[vars]
+CITYCELL_REPOSITORY = "greyzstarlovesellen/citycell"
+CITYCELL_BRANCH = "main"
+# Troque pela origem do site publicado, por exemplo https://citycell.pages.dev
+FRONTEND_ORIGIN = "https://citycell.pages.dev"
+
