@@ -48,7 +48,7 @@ async function signToken(payload, secret) {
 async function verifyToken(token, secret) {
   const [body, signature, extra] = token.split(".");
   if (!body || !signature || extra) return false;
-  const expected = await signToken(JSON.parse(decodeURIComponent(escape(atob(body.replace(/-/g, "+").replace(/_/g, "/"))))), secret);
+  const expected = await signToken(JSON.parse(atob(body.replace(/-/g, "+").replace(/_/g, "/"))), secret);
   return expected === token;
 }
 
@@ -89,7 +89,7 @@ async function authenticated(request, env) {
   try {
     const valid = await verifyToken(token, env.SESSION_SECRET);
     if (!valid) return false;
-    const payload = JSON.parse(decodeURIComponent(escape(atob(token.split(".")[0].replace(/-/g, "+").replace(/_/g, "/")))));
+    const payload = JSON.parse(atob(token.split(".")[0].replace(/-/g, "+").replace(/_/g, "/")));
     return payload.exp > Math.floor(Date.now() / 1000);
   } catch {
     return false;
